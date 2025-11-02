@@ -1,0 +1,293 @@
+SELF­LINK — FRONTEND DESIGN & IMPLEMENTATION BLUEPRINT (v1)
+Date: 2025-10-29
+
+
+================================================================================
+PURPOSE
+--------------------------------------------------------------------------------
+This document defines the **frontend vision and design system** for SelfLink.
+It provides clear direction on:
+- Visual identity (colors, typography, animations, atmosphere)
+- User interface patterns and interactivity
+- Communication with backend (API, real-time updates, caching)
+- Component architecture (React/Vanilla/HTML-first MVP option)
+- Accessibility and performance goals
+
+The goal is a **calm, elegant, emotionally warm** interface that builds
+trust, focus, and curiosity rather than addiction or overstimulation.
+
+
+================================================================================
+1) DESIGN PHILOSOPHY
+--------------------------------------------------------------------------------
+SelfLink’s frontend should feel like a digital temple — serene, subtle,
+intelligent, alive. Each element supports awareness, reflection, and connection.
+
+🧘‍♂️ Principles:
+• Calm before clever — elegance > complexity
+• Minimal but emotionally resonant
+• Every color and motion conveys serenity and depth
+• Natural light gradients — no harsh contrasts
+• Micro-animations that feel alive, not flashy
+• Typography that breathes
+• Harmony between UI and AI mentor tone
+
+🪷 Keywords:
+serenity · trust · cosmic · connection · introspection · flow
+
+
+================================================================================
+2) COLOR SYSTEM (PRIMARY PALETTE)
+--------------------------------------------------------------------------------
+The palette must evoke safety, intelligence, and higher awareness.
+
+🌈 Core colors:
+• Deep Space Blue        #0B0E26 — background foundation (calm, cosmic depth)
+• Celestial Teal         #00C6A7 — trust, vitality, connection
+• Soft Lavender          #B29BFF — inspiration, imagination
+• Misty White            #E8F1F5 — clarity, breath
+• Aurora Gradient         → linear-gradient(90deg, #74b9ff, #a29bfe, #81ecec)
+
+🌅 Secondary (accents):
+• Rose Quartz (#FADADD) — empathy, love
+• Golden Sunbeam (#FFD36E) — positive energy, hope
+• Indigo Veil (#3D3D6B) — mystery, depth
+
+All gradients use soft transitions with low contrast and slight transparency.
+Use blur (5–20px) for floating cards to simulate glass-like serenity.
+
+
+================================================================================
+3) TYPOGRAPHY
+--------------------------------------------------------------------------------
+Fonts:
+• Headings: Poppins or Inter (weight 600–700)
+• Body: Open Sans or Lato (weight 400–500)
+• Quote/AI text: “DM Sans” or “Raleway” for warmth
+
+Sizes:
+• h1: 2.8rem — gradient text, subtle float animation
+• h2: 2rem — solid or semi-transparent
+• body: 1.1rem — maximum readability (60–80 chars per line)
+• small: 0.9rem — dimmed gray-blue (#9AA5B1)
+
+Letter spacing: 0.03em  
+Line height: 1.6–1.8  
+Text alignment: left with max 800px width for focused reading.
+
+
+================================================================================
+4) LAYOUT & COMPONENT SYSTEM
+--------------------------------------------------------------------------------
+Grid: 12-column fluid, 80–120px margins, responsive.
+Containers: 90% width, max 1440px, auto-centered.
+
+UI Architecture:
+• Global: Header, Sidebar (or floating menu), Footer
+• Dynamic: Home, Register, SoulMatch, AI Mentor, GrowthPath, Courses
+
+Component foldering (React-style):
+src/
+  components/
+    Header.jsx
+    Footer.jsx
+    NavMenu.jsx
+    Card.jsx
+    Button.jsx
+    GradientText.jsx
+    MatrixBackground.jsx
+    Modal.jsx
+  pages/
+    Home.jsx
+    Register.jsx
+    SoulMatch.jsx
+    Mentor.jsx
+    GrowthPath.jsx
+    Courses.jsx
+
+CSS/Animations:
+• Tailwind or CSS modules
+• GSAP or Framer Motion for micro-animations
+• matrix-bg.css for starfield & geometric line background (Canvas)
+
+
+================================================================================
+5) BACKGROUND & ANIMATIONS
+--------------------------------------------------------------------------------
+🎇 MatrixBackground (Canvas/JS)
+• Floating dots + lines connecting softly (network of souls)
+• Gentle parallax movement (mouse/scroll-reactive)
+• Gradient overlays fading with opacity 0.2–0.4
+• Starfield-like particles with variable blur
+
+✨ Page Transitions
+• Fade + upward motion (0.6s ease-in-out)
+• Shared element transitions (logo, header text)
+
+🎞️ Micro-interactions
+• Button hover → glow + gradient shift
+• Card appear → soft scale-in (0.96 → 1.00)
+• Input focus → gradient underline glow
+• Modal open → fade + float-in
+
+🌊 Ambient animation loop
+• Light aurora effect behind main content
+• Slight camera drift illusion (depth)
+• Maintain 60fps — smooth, never aggressive
+
+
+================================================================================
+6) UI MODULES (PER PAGE)
+--------------------------------------------------------------------------------
+🏠 HOME
+• Hero section with gradient “SelfLink” logo animation
+• Quote carousel (motivational AI mentor phrases)
+• “Join the journey” button (primary CTA)
+
+🪞 REGISTER
+• Step-by-step wizard (name → photo → birth details → place/time)
+• Animated birth matrix preview (auto-calculates)
+• Soft music / subtle pulse on transitions
+
+💞 SOULMATCH
+• Split-screen card animation (two souls mirror each other)
+• Circle orbit animation around compatibility %
+• “Energy resonance” glowing lines connecting profiles
+
+🤖 AI MENTOR
+• Chat-like interface with glowing speech bubbles
+• Background pulses according to tone (calm, focused, excited)
+• Floating “thought” indicators when AI types
+
+🌱 GROWTH PATH
+• Vertical timeline (lessons, reflections, milestones)
+• Progress circles filled with color based on energy
+• “Complete task” triggers confetti-like soft light burst
+
+🎧 COURSES & PRACTICES
+• Media cards (audio/video) with soft shadows
+• Play animation → glowing ring ripple
+• Filter by theme (Love, Balance, Confidence, Awareness)
+
+
+================================================================================
+7) COLOR & THEME DYNAMICS
+--------------------------------------------------------------------------------
+• Automatic theme change by time of day:
+  - Morning: warm gold + sky blue
+  - Afternoon: teal + white clarity
+  - Night: deep indigo + violet aurora
+
+• Optional “Breathing Mode”: background gently expands/contracts with rhythm.
+• AI Mentor tone changes palette brightness dynamically based on dialogue mood.
+
+
+================================================================================
+8) FRONTEND–BACKEND INTERACTION
+--------------------------------------------------------------------------------
+API:
+• Axios/Fetch client with token refresh (JWT)
+• Endpoints: /api/v1/* (users, posts, messages, mentor, matrix, payments)
+
+State:
+• Redux Toolkit or Zustand for light state mgmt
+• React Query (TanStack) for API caching and revalidation
+
+Auth Flow:
+• Register → Save local JWT → Redirect to dashboard
+• Refresh tokens auto-renew before expiry
+• Handle 401 errors → logout + redirect gracefully
+
+Real-time:
+• WebSocket client for DMs + Mentor live typing
+• Reconnect logic + exponential backoff
+• Heartbeat ping every 25s
+
+Caching:
+• API layer caches with localStorage/sessionStorage
+• IndexedDB for offline posts/messages sync
+
+Performance:
+• Lazy load routes
+• Code splitting per page
+• Preload hero visuals + MatrixBackground async
+• Lighthouse target: >90 on all metrics
+
+
+================================================================================
+9) RESPONSIVENESS & ACCESSIBILITY
+--------------------------------------------------------------------------------
+• Mobile-first layout (breakpoints: 480, 768, 1024, 1440)
+• Keyboard navigation, focus rings, ARIA labels
+• High-contrast mode (optional)
+• Reduced motion toggle for accessibility
+
+
+================================================================================
+10) STYLE SYSTEM (CSS TOKENS)
+--------------------------------------------------------------------------------
+:root {
+  --color-bg: #0B0E26;
+  --color-primary: #00C6A7;
+  --color-accent: #B29BFF;
+  --color-text: #E8F1F5;
+  --color-muted: #9AA5B1;
+  --gradient-main: linear-gradient(90deg, #74b9ff, #a29bfe, #81ecec);
+  --radius-xl: 20px;
+  --transition-fast: 0.3s ease-in-out;
+  --transition-slow: 1s ease-in-out;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Lato", sans-serif;
+  transition: background var(--transition-slow);
+}
+
+.card {
+  backdrop-filter: blur(15px);
+  border-radius: var(--radius-xl);
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 40px rgba(0,0,0,0.3);
+  transition: transform var(--transition-fast);
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+
+button.primary {
+  background: var(--gradient-main);
+  border: none;
+  border-radius: 50px;
+  padding: 12px 24px;
+  color: #fff;
+  font-weight: 600;
+  transition: box-shadow 0.4s ease;
+}
+button.primary:hover {
+  box-shadow: 0 0 25px rgba(116,185,255,0.4);
+}
+
+
+================================================================================
+11) DEPLOYMENT & HOSTING
+--------------------------------------------------------------------------------
+• GitHub Pages for MVP static demo
+• Netlify/Vercel for SPA with custom domain
+• Later: SSR via Next.js for SEO
+• Integrate Sentry + LogRocket for front-end error monitoring
+
+
+================================================================================
+12) FUTURE EXPANSIONS
+--------------------------------------------------------------------------------
+• Voice interaction for AI Mentor (Web Speech API)
+• 3D “Energy Matrix Room” (Three.js / WebGL)
+• AR companion (mobile) — see your energy field in camera
+• Live community “Aurora Board” — collective color pulse of active users
+
+
+================================================================================
+END OF FRONTEND BLUEPRINT
+--------------------------------------------------------------------------------

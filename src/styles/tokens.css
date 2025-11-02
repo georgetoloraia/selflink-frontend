@@ -1,0 +1,75 @@
+:root {
+  --color-bg: #0b0e26;
+  --color-surface: rgba(255, 255, 255, 0.06);
+  --color-overlay: rgba(11, 14, 38, 0.8);
+  --color-primary: #00c6a7;
+  --color-secondary: #b29bff;
+  --color-tertiary: #e8f1f5;
+  --color-accent: #fadadd;
+  --color-warm: #ffd36e;
+  --color-depth: #3d3d6b;
+  --color-muted: #9aa5b1;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --gradient-main: linear-gradient(90deg, #74b9ff, #a29bfe, #81ecec);
+  --gradient-night: linear-gradient(120deg, #0b0e26, #3d3d6b, #b29bff);
+  --gradient-morning: linear-gradient(120deg, #ffd36e, #74b9ff, #fadadd);
+  --gradient-afternoon: linear-gradient(120deg, #00c6a7, #81ecec, #e8f1f5);
+  --font-heading: "Inter", "Poppins", sans-serif;
+  --font-body: "Lato", "Open Sans", sans-serif;
+  --font-quote: "DM Sans", "Raleway", sans-serif;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-xl: 24px;
+  --shadow-soft: 0 0 40px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 25px rgba(116, 185, 255, 0.4);
+  --transition-fast: 0.3s ease-in-out;
+  --transition-slow: 1s ease-in-out;
+  --breathing-scale: 1.04;
+  --header-height: 72px;
+}
+
+[data-theme="morning"] {
+  --color-bg: #0b0e26;
+  --gradient-main: var(--gradient-morning);
+  --color-primary: #ffd36e;
+  --color-secondary: #74b9ff;
+  --color-tertiary: #fff8e7;
+}
+
+[data-theme="afternoon"] {
+  --gradient-main: var(--gradient-afternoon);
+  --color-primary: #00c6a7;
+  --color-secondary: #81ecec;
+  --color-tertiary: #e8f1f5;
+}
+
+[data-theme="night"] {
+  --gradient-main: var(--gradient-night);
+  --color-primary: #b29bff;
+  --color-secondary: #3d3d6b;
+  --color-tertiary: #c8d3f5;
+}
+
+[data-breathing="true"] body {
+  animation: breathe 9s ease-in-out infinite;
+  transform-origin: center;
+}
+
+:root[data-reduced-motion="true"] *,
+:root[data-reduced-motion="true"] *::before,
+:root[data-reduced-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(var(--breathing-scale));
+  }
+}
