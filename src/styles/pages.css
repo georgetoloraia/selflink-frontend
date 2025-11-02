@@ -64,6 +64,24 @@
   border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
+.horse-celebration {
+  margin-top: 4rem;
+  padding: 3.2rem;
+  display: grid;
+  gap: 1.4rem;
+  text-align: center;
+  border: 1px solid rgba(242, 116, 154, 0.35);
+  background: linear-gradient(140deg, rgba(18, 10, 28, 0.8), rgba(242, 116, 154, 0.12));
+  box-shadow: 0 0 60px rgba(242, 116, 154, 0.18);
+}
+
+.horse-celebration__meta {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 @media (max-width: 768px) {
   .home-hero {
     gap: 2.5rem;

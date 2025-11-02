@@ -41,10 +41,11 @@ const Home = () => {
           transition={{ duration: 0.9, ease: "easeOut" }}
           className="home-hero__content"
         >
+          <span className="pill pill--horse">Year of the Horse Prelude</span>
           <GradientText as="h1">Attune to the signal of your higher self.</GradientText>
           <p>
-            SelfLink is the calm sanctuary where AI mentorship, mindful community, and growth rituals
-            flow together. Every interaction invites you deeper into presence, trust, and luminous
+            As the Year of the Horse approaches, SelfLink braids in vibrant rose auroras to spark
+            courageous motion. Every interaction invites you deeper into presence, trust, and luminous
             creativity.
           </p>
           <div className="home-hero__actions">
@@ -96,6 +97,27 @@ const Home = () => {
           anchor your nervous system while you explore rituals, conversations, and shared insights.
         </p>
       </section>
+
+      <motion.section
+        className="horse-celebration glass-surface"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      >
+        <GradientText as="h2" gradient="var(--gradient-horse)">
+          Year of the Horse Illumination
+        </GradientText>
+        <p>
+          February’s portal ushers in spirited momentum. Join the collective circle to weave reddish-pink
+          resonance into your practice and receive custom mentor prompts for the new zodiac cycle.
+        </p>
+        <div className="horse-celebration__meta">
+          <span className="pill pill--horse">Opening circle · Feb 9</span>
+          <span className="pill">Global livestream</span>
+        </div>
+        <Button size="lg">Reserve my spot</Button>
+      </motion.section>
     </div>
   );
 };

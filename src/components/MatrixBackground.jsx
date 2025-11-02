@@ -5,10 +5,12 @@ const createParticles = (width, height, count) => {
   return Array.from({ length: count }, () => ({
     x: Math.random() * width,
     y: Math.random() * height,
-    vz: Math.random() * 0.4 + 0.1,
-    vx: (Math.random() - 0.5) * 0.3,
-    vy: (Math.random() - 0.5) * 0.3,
-    size: Math.random() * 2 + 0.6
+    vx: (Math.random() - 0.5) * 0.35,
+    vy: (Math.random() - 0.5) * 0.35,
+    size: Math.random() * 1.8 + 0.6,
+    baseAlpha: Math.random() * 0.4 + 0.35,
+    twinkleSpeed: Math.random() * 0.015 + 0.005,
+    twinkleOffset: Math.random() * Math.PI * 2
   }));
 };
 
@@ -35,7 +37,7 @@ const MatrixBackground = ({ reducedMotion = false }) => {
     resize();
     window.addEventListener("resize", resize);
 
-    const animate = () => {
+    const animate = (time = performance.now()) => {
       const { width, height } = canvas;
       context.clearRect(0, 0, width, height);
 
@@ -48,12 +50,18 @@ const MatrixBackground = ({ reducedMotion = false }) => {
         p.x += p.vx;
         p.y += p.vy;
 
+        // subtle drift adjustments to keep flow organic
+        p.vx += (Math.random() - 0.5) * 0.002;
+        p.vy += (Math.random() - 0.5) * 0.002;
+
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
 
+        const alpha = p.baseAlpha + Math.sin(time * p.twinkleSpeed + p.twinkleOffset) * 0.25;
+
         context.beginPath();
         context.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        context.fillStyle = "rgba(116, 185, 255, 0.25)";
+        context.fillStyle = `rgba(255, 255, 255, ${Math.max(Math.min(alpha, 1), 0.15)})`;
         context.fill();
 
         for (let j = i + 1; j < particles.length; j += 1) {
@@ -93,7 +101,7 @@ const MatrixBackground = ({ reducedMotion = false }) => {
     if (!reducedMotion) {
       animationRef.current = requestAnimationFrame(animate);
     } else {
-      animate();
+      animate(performance.now());
     }
 
     return () => {

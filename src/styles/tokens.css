@@ -6,11 +6,14 @@
   --color-secondary: #b29bff;
   --color-tertiary: #e8f1f5;
   --color-accent: #fadadd;
+  --color-horse: #f2749a;
+  --color-horse-dark: #c25173;
   --color-warm: #ffd36e;
   --color-depth: #3d3d6b;
   --color-muted: #9aa5b1;
   --color-border: rgba(255, 255, 255, 0.12);
   --gradient-main: linear-gradient(90deg, #74b9ff, #a29bfe, #81ecec);
+  --gradient-horse: linear-gradient(120deg, rgba(242, 116, 154, 0.85), rgba(178, 155, 255, 0.65), rgba(129, 236, 236, 0.7));
   --gradient-night: linear-gradient(120deg, #0b0e26, #3d3d6b, #b29bff);
   --gradient-morning: linear-gradient(120deg, #ffd36e, #74b9ff, #fadadd);
   --gradient-afternoon: linear-gradient(120deg, #00c6a7, #81ecec, #e8f1f5);
@@ -48,6 +51,15 @@
   --color-primary: #b29bff;
   --color-secondary: #3d3d6b;
   --color-tertiary: #c8d3f5;
+}
+
+[data-theme="horse"] {
+  --gradient-main: var(--gradient-horse);
+  --color-primary: var(--color-horse);
+  --color-secondary: rgba(242, 116, 154, 0.35);
+  --color-tertiary: #ffe5f0;
+  --color-accent: var(--color-horse);
+  --color-bg: #120a1c;
 }
 
 [data-breathing="true"] body {

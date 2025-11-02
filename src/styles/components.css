@@ -129,6 +129,12 @@
   color: transparent;
 }
 
+.pill--horse {
+  background: rgba(242, 116, 154, 0.22);
+  border-color: rgba(242, 116, 154, 0.45);
+  color: #ffe5f0;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -354,6 +360,57 @@
 
 .skip-link:focus {
   top: 1rem;
+}
+
+.smoke-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+
+.smoke-layer__cloud {
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  top: -20%;
+  left: -20%;
+  background: radial-gradient(circle at 30% 30%, rgba(200, 220, 255, 0.22), transparent 65%),
+    radial-gradient(circle at 70% 40%, rgba(118, 166, 255, 0.18), transparent 70%),
+    radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.16), transparent 75%);
+  filter: blur(80px);
+  opacity: 0.55;
+  animation: smoke-drift 26s ease-in-out infinite;
+}
+
+.smoke-layer__cloud--two {
+  animation-duration: 34s;
+  animation-direction: reverse;
+  opacity: 0.4;
+}
+
+.smoke-layer__cloud--three {
+  animation-duration: 42s;
+  animation-delay: -6s;
+  opacity: 0.3;
+}
+
+.smoke-layer--static .smoke-layer__cloud {
+  animation: none;
+}
+
+@keyframes smoke-drift {
+  0% {
+    transform: translate3d(-8%, -4%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, 4%, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(-10%, 0, 0) scale(1.02);
+  }
 }
 
 @media (max-width: 600px) {

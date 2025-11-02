@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import MatrixBackground from "../components/MatrixBackground.jsx";
+import SmokeOverlay from "../components/SmokeOverlay.jsx";
 import { NAV_LINKS } from "../config/navigation.js";
 import { useThemeCycle } from "../hooks/useThemeCycle.js";
 import { useBreathingMode } from "../hooks/useBreathingMode.js";
@@ -20,6 +21,7 @@ const AppLayout = () => {
         Skip to content
       </a>
       <MatrixBackground reducedMotion={reducedMotion} />
+      <SmokeOverlay reducedMotion={reducedMotion} />
       <Header
         navLinks={NAV_LINKS}
         themeName={themeLabel}
