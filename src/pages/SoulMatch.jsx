@@ -4,39 +4,13 @@ import Card from "../components/Card.jsx";
 import Button from "../components/Button.jsx";
 import GradientText from "../components/GradientText.jsx";
 import Modal from "../components/Modal.jsx";
-
-const suggestedMatches = [
-  {
-    id: "elysian-waves",
-    name: "Elysian Waves",
-    archetype: "Empathic Innovator",
-    resonance: 94,
-    focus: ["breathwork", "relational attunement"],
-    description:
-      "Seeks collaborative meditations exploring collective nervous system regulation and storytelling."
-  },
-  {
-    id: "luminous-echo",
-    name: "Luminous Echo",
-    archetype: "Visionary Weaver",
-    resonance: 91,
-    focus: ["creative ritual", "dream journaling"],
-    description:
-      "Exploring lucid dreaming as a bridge to community healing, maps liminal experiences through art."
-  },
-  {
-    id: "ember-sage",
-    name: "Ember Sage",
-    archetype: "Grounded Catalyst",
-    resonance: 89,
-    focus: ["somatic micro-dosing", "earth ceremonies"],
-    description:
-      "Facilitates gentle rewilding practices and seeks partners for dawn reflection circles."
-  }
-];
+import { useSoulMatchesQuery } from "../api/soulMatch.js";
 
 const SoulMatch = () => {
+  const { data, isLoading, isError } = useSoulMatchesQuery();
+  const matches = data?.matches ?? [];
   const [selected, setSelected] = useState(null);
+  const hasMatches = matches.length > 0;
 
   return (
     <div className="page-container">
@@ -47,31 +21,41 @@ const SoulMatch = () => {
       </p>
 
       <div className="content-grid">
-        {suggestedMatches.map((match, index) => (
-          <motion.div
-            key={match.id}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.12 * index, duration: 0.6 }}
-          >
-            <Card
-              title={`${match.resonance}% resonance`}
-              subtitle={`${match.name} · ${match.archetype}`}
-              actions={
-                <span className="pill" aria-label={`Focus areas ${match.focus.join(", ")}`}>
-                  {match.focus.join(" • ")}
-                </span>
-              }
-              footer={
-                <Button variant="ghost" size="sm" onClick={() => setSelected(match)}>
-                  View profile
-                </Button>
-              }
+        {isLoading && <div className="page-loading">Scanning resonance field…</div>}
+        {isError && !isLoading && <div className="page-error">Unable to load matches. Try again shortly.</div>}
+        {!isLoading && !isError && !hasMatches && (
+          <div className="page-empty">No resonance partners found yet. Refresh or expand your intentions.</div>
+        )}
+        {!isLoading &&
+          !isError &&
+          hasMatches &&
+          matches.map((match, index) => (
+            <motion.div
+              key={match.id ?? `${match.name}-${index}`}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.12 * index, duration: 0.6 }}
             >
-              <p>{match.description}</p>
-            </Card>
-          </motion.div>
-        ))}
+              <Card
+                title={match.resonance ? `${match.resonance}% resonance` : match.name}
+                subtitle={match.archetype ? `${match.name} · ${match.archetype}` : match.name}
+                actions={
+                  match?.focus?.length ? (
+                    <span className="pill" aria-label={`Focus areas ${match.focus.join(", ")}`}>
+                      {match.focus.join(" • ")}
+                    </span>
+                  ) : null
+                }
+                footer={
+                  <Button variant="ghost" size="sm" onClick={() => setSelected(match)}>
+                    View profile
+                  </Button>
+                }
+              >
+                <p>{match.description}</p>
+              </Card>
+            </motion.div>
+          ))}
       </div>
 
       <section className="soulmatch-callout glass-surface">
@@ -88,7 +72,7 @@ const SoulMatch = () => {
           <Modal
             open
             onClose={() => setSelected(null)}
-            title={`${selected.name} · ${selected.archetype}`}
+            title={selected.archetype ? `${selected.name} · ${selected.archetype}` : selected.name}
             footer={
               <>
                 <Button variant="ghost" onClick={() => setSelected(null)}>
@@ -99,7 +83,7 @@ const SoulMatch = () => {
             }
           >
             <p>
-              Resonance {selected.resonance}% · Practices: {selected.focus.join(", ")}
+              Resonance {selected.resonance ?? "—"}% · Practices: {selected.focus?.join(", ") ?? "shared intuitions"}
             </p>
             <p>
               {selected.description} Share a note describing what draws you together and suggest a

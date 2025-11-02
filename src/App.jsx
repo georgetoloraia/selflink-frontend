@@ -7,12 +7,14 @@ import Mentor from "./pages/Mentor.jsx";
 import GrowthPath from "./pages/GrowthPath.jsx";
 import Courses from "./pages/Courses.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import Login from "./pages/Login.jsx";
 
 const App = () => (
   <Routes>
     <Route element={<AppLayout />}>
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/soul-match" element={<SoulMatch />} />
       <Route path="/mentor" element={<Mentor />} />
       <Route path="/growth-path" element={<GrowthPath />} />

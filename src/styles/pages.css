@@ -92,6 +92,25 @@
   }
 }
 
+.page-loading,
+.page-error,
+.page-empty {
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.page-error {
+  color: #ffd36e;
+}
+
+.page-empty {
+  color: rgba(232, 241, 245, 0.7);
+}
+
 .soulmatch-callout {
   margin-top: 4rem;
   padding: 3rem;
@@ -144,6 +163,16 @@
 .form__success {
   color: #81ecec;
   font-size: 0.95rem;
+}
+
+.form__meta {
+  margin-top: 1.2rem;
+  color: rgba(232, 241, 245, 0.7);
+  font-size: 0.95rem;
+}
+
+.form__meta a {
+  color: var(--color-primary);
 }
 
 .mentor-grid {

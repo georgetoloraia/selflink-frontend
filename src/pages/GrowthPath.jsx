@@ -1,15 +1,16 @@
 import GradientText from "../components/GradientText.jsx";
 import Card from "../components/Card.jsx";
 import Button from "../components/Button.jsx";
+import { useGrowthPathQuery } from "../api/growth.js";
 
-const milestones = [
+const fallbackMilestones = [
   {
     id: "ground",
     title: "Grounding Portal",
     subtitle: "Week 1 · Nervous system attunement",
     practices: ["3 minute body scans", "Evening gratitude whisper", "Weekly mentor sync"],
     focus:
-      "Stabilize your baseline energy and map emotional peaks. Light journaling prompts every night." 
+      "Stabilize your baseline energy and map emotional peaks. Light journaling prompts every night."
   },
   {
     id: "vision",
@@ -29,7 +30,18 @@ const milestones = [
   }
 ];
 
+const fallbackCalibration = {
+  title: "Sync with Mentor for calibration",
+  copy:
+    "Schedule a 15 minute attunement with your mentor. We will reweave practices around your nervous system and commitments, then refresh your Growth Path in real time.",
+  cta: "Book calibration"
+};
+
 const GrowthPath = () => {
+  const { data, isLoading, isError } = useGrowthPathQuery();
+  const path = data?.milestones ?? fallbackMilestones;
+  const calibration = data?.calibration ?? fallbackCalibration;
+
   return (
     <div className="page-container">
       <GradientText as="h1">Curate your Growth Pathway</GradientText>
@@ -39,30 +51,36 @@ const GrowthPath = () => {
       </p>
 
       <div className="growth-timeline">
-        {milestones.map((milestone, index) => (
-          <div key={milestone.id} className="growth-timeline__item">
-            <div className="growth-timeline__marker">
-              <span>{index + 1}</span>
+        {isLoading && <div className="page-loading">Loading your path…</div>}
+        {isError && !isLoading && <div className="page-error">We could not fetch your path right now.</div>}
+        {!isLoading && !isError && path.length === 0 && (
+          <div className="page-empty">No milestones yet. Begin a practice to generate your path.</div>
+        )}
+        {!isLoading &&
+          !isError &&
+          path.map((milestone, index) => (
+            <div key={milestone.id ?? milestone.title} className="growth-timeline__item">
+              <div className="growth-timeline__marker">
+                <span>{milestone.order ?? index + 1}</span>
+              </div>
+              <Card title={milestone.title} subtitle={milestone.subtitle}>
+                <p>{milestone.focus}</p>
+                {milestone?.practices?.length > 0 && (
+                  <ul className="growth-timeline__list">
+                    {milestone.practices.map((practice) => (
+                      <li key={practice}>{practice}</li>
+                    ))}
+                  </ul>
+                )}
+              </Card>
             </div>
-            <Card title={milestone.title} subtitle={milestone.subtitle}>
-              <p>{milestone.focus}</p>
-              <ul className="growth-timeline__list">
-                {milestone.practices.map((practice) => (
-                  <li key={practice}>{practice}</li>
-                ))}
-              </ul>
-            </Card>
-          </div>
-        ))}
+          ))}
       </div>
 
       <section className="growth-cta glass-surface">
-        <GradientText as="h2">Sync with Mentor for calibration</GradientText>
-        <p>
-          Schedule a 15 minute attunement with your mentor. We will reweave practices around your nervous
-          system and commitments, then refresh your Growth Path in real time.
-        </p>
-        <Button size="lg">Book calibration</Button>
+        <GradientText as="h2">{calibration.title}</GradientText>
+        <p>{calibration.copy}</p>
+        {calibration?.cta && <Button size="lg">{calibration.cta}</Button>}
       </section>
     </div>
   );

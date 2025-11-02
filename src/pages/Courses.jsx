@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import GradientText from "../components/GradientText.jsx";
 import Card from "../components/Card.jsx";
 import Button from "../components/Button.jsx";
+import { useCoursesQuery } from "../api/courses.js";
 
-const courses = [
+const fallbackCourses = [
   {
     id: "aurora-breath",
     title: "Aurora Breath Ritual",
@@ -11,7 +12,7 @@ const courses = [
     theme: "Balance",
     description:
       "A guided breath sequence with gentle aurora soundscapes that reset your nervous system and open creativity.",
-    action: "Play audio"
+    action: { label: "Play audio" }
   },
   {
     id: "heart-field",
@@ -20,7 +21,7 @@ const courses = [
     theme: "Love",
     description:
       "Somatic movement and visualization to recharge the chest cavity and strengthen loving boundaries.",
-    action: "Watch video"
+    action: { label: "Watch video" }
   },
   {
     id: "quiet-power",
@@ -29,7 +30,7 @@ const courses = [
     theme: "Confidence",
     description:
       "Slow qigong-inspired motions synced with a binaural beat designed to root self-trust.",
-    action: "Play audio"
+    action: { label: "Play audio" }
   },
   {
     id: "cosmic-clarity",
@@ -38,19 +39,31 @@ const courses = [
     theme: "Awareness",
     description:
       "Printable prompt set that guides you through lucid journaling and constellation mapping.",
-    action: "Download"
+    action: { label: "Download" }
   }
 ];
 
-const THEMES = ["All", "Love", "Balance", "Confidence", "Awareness"];
-
 const Courses = () => {
   const [filter, setFilter] = useState("All");
+  const { data, isLoading, isError } = useCoursesQuery();
+  const courses = data?.courses ?? fallbackCourses;
+
+  const themes = useMemo(() => {
+    const unique = new Set(courses.map((course) => course.theme).filter(Boolean));
+    if (unique.size === 0) return ["All"];
+    return ["All", ...Array.from(unique).sort()];
+  }, [courses]);
+
+  useEffect(() => {
+    if (!themes.includes(filter)) {
+      setFilter("All");
+    }
+  }, [themes, filter]);
 
   const filtered = useMemo(() => {
     if (filter === "All") return courses;
     return courses.filter((course) => course.theme === filter);
-  }, [filter]);
+  }, [filter, courses]);
 
   return (
     <div className="page-container">
@@ -61,7 +74,7 @@ const Courses = () => {
       </p>
 
       <div className="courses-filters">
-        {THEMES.map((theme) => (
+        {themes.map((theme) => (
           <Button
             key={theme}
             variant={filter === theme ? "primary" : "ghost"}
@@ -75,16 +88,29 @@ const Courses = () => {
       </div>
 
       <div className="courses-grid">
-        {filtered.map((course) => (
-          <Card
-            key={course.id}
-            title={course.title}
-            subtitle={`${course.format} · ${course.theme}`}
-            footer={<Button variant="ghost">{course.action}</Button>}
-          >
-            <p>{course.description}</p>
-          </Card>
-        ))}
+        {isLoading && <div className="page-loading">Fetching practices…</div>}
+        {isError && !isLoading && <div className="page-error">Could not load practices.</div>}
+        {!isLoading && !isError && filtered.length === 0 && (
+          <div className="page-empty">No practices found for this theme yet.</div>
+        )}
+        {!isLoading &&
+          !isError &&
+          filtered.map((course) => (
+            <Card
+              key={course.id ?? course.title}
+              title={course.title}
+              subtitle={[course.format, course.theme].filter(Boolean).join(" · ")}
+              footer={
+                course?.action?.label ? (
+                  <Button variant="ghost" as={course.action?.href ? "a" : "button"} href={course.action?.href}>
+                    {course.action.label}
+                  </Button>
+                ) : null
+              }
+            >
+              <p>{course.description}</p>
+            </Card>
+          ))}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "./client.js";
 import useAppStore from "../store/useAppStore.js";
+import { queryKeys } from "./queryKeys.js";
 
 const normalizeAuthResponse = (data) => ({
   token: data?.token ?? null,
@@ -22,6 +23,7 @@ export const login = async (payload) => {
 export const useRegisterMutation = () => {
   const setAuth = useAppStore((state) => state.setAuth);
   const setUser = useAppStore((state) => state.setUser);
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: register,
@@ -31,7 +33,9 @@ export const useRegisterMutation = () => {
       }
       if (result.user) {
         setUser(result.user);
+        queryClient.setQueryData(queryKeys.me(), result.user);
       }
+      queryClient.invalidateQueries({ queryKey: queryKeys.me() });
     }
   });
 };
@@ -39,6 +43,7 @@ export const useRegisterMutation = () => {
 export const useLoginMutation = () => {
   const setAuth = useAppStore((state) => state.setAuth);
   const setUser = useAppStore((state) => state.setUser);
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: login,
@@ -48,7 +53,9 @@ export const useLoginMutation = () => {
       }
       if (result.user) {
         setUser(result.user);
+        queryClient.setQueryData(queryKeys.me(), result.user);
       }
+      queryClient.invalidateQueries({ queryKey: queryKeys.me() });
     }
   });
 };

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Card from "../components/Card.jsx";
 import Button from "../components/Button.jsx";
 import GradientText from "../components/GradientText.jsx";
@@ -98,6 +99,9 @@ const Register = () => {
             Secure my space
           </Button>
         </form>
+        <p className="form__meta">
+          Already with us? <Link to="/login">Sign in</Link>
+        </p>
       </Card>
     </div>
   );

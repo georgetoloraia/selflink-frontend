@@ -31,6 +31,9 @@ const Header = ({
           <NavMenu links={navLinks} onNavigate={closeMenu} />
         </div>
         <div className="app-header__actions">
+          <Button as={Link} to="/login" variant="ghost" size="sm">
+            Sign in
+          </Button>
           <Button variant="ghost" size="sm" onClick={onCycleTheme} aria-label="Cycle theme">
             <span aria-hidden="true">🌗</span>
             <span className="app-header__action-label">{themeName}</span>
@@ -71,6 +74,10 @@ const Header = ({
         <div className="app-header__mobile" id="mobile-nav">
           <NavMenu links={navLinks} orientation="vertical" onNavigate={closeMenu} />
           <div className="app-header__mobile-actions">
+            <Button as={Link} to="/login" variant="ghost" size="sm" onClick={closeMenu}>
+              <span aria-hidden="true">✨</span>
+              <span>Sign in</span>
+            </Button>
             <Button variant="ghost" size="sm" onClick={onCycleTheme} aria-label="Cycle theme">
               <span aria-hidden="true">🌗</span>
               <span>Theme · {themeName}</span>
