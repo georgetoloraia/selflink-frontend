@@ -16,10 +16,12 @@ const queryClient = new QueryClient({
   }
 });
 
+const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter basename={basePath || undefined}>
         <App />
       </BrowserRouter>
     </QueryClientProvider>
