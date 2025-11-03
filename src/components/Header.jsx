@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import NavMenu from "./NavMenu.jsx";
 import Button from "./Button.jsx";
 import GradientText from "./GradientText.jsx";
+import logoUrl from "../assets/logo.jpeg";
 
 const Header = ({
   navLinks,
@@ -22,10 +23,13 @@ const Header = ({
     <header className="app-header glass-surface">
       <div className="app-header__inner">
         <Link to="/" className="app-header__brand" onClick={closeMenu}>
-          <GradientText as="span" className="app-header__title">
-            SelfLink
-          </GradientText>
-          <span className="app-header__subtitle">Awaken your inner seer</span>
+          <img src={logoUrl} alt="SelfLink logo" className="app-header__logo" width="44" height="44" />
+          <span className="app-header__brand-text">
+            <GradientText as="span" className="app-header__title">
+              SelfLink
+            </GradientText>
+            <span className="app-header__subtitle">Awaken your inner seer</span>
+          </span>
         </Link>
         <div className="app-header__nav">
           <NavMenu links={navLinks} onNavigate={closeMenu} />
